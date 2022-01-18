@@ -12,8 +12,13 @@ public class QuestionPage implements Serializable {
         this.answers = answers;
     }
 
-    public static QuestionPage getEmptyPage(){
-        return new QuestionPage("",new Answers());
+    public static QuestionPage getEmptyPage() {
+        return new QuestionPage("", new Answers.Builder()
+                .addCorrectAnswer("")
+                .addWrongAnswer("")
+                .addWrongAnswer2("")
+                .addWrongAnswer3("")
+                .build());
     }
 
     public String getQuestion() {
@@ -21,7 +26,13 @@ public class QuestionPage implements Serializable {
     }
 
     public void setQuestion(String question) {
-        this.question = question;
+        try {
+            if (question != null | !question.isEmpty() | !question.trim().isEmpty()) {
+                this.question = question;
+            } else return;
+        } catch (NullPointerException e) {
+            return;
+        }
     }
 
     public Answers getAnswers() {
@@ -32,7 +43,7 @@ public class QuestionPage implements Serializable {
         this.answers = answers;
     }
 
-    public boolean hasEmptyFields(){
+    public boolean hasEmptyFields() {
         return question.isEmpty() | answers.hasEmptyFields();
 
     }
