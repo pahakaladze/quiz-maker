@@ -62,8 +62,13 @@ public class Answers implements Serializable {
                 | isNullOrEmpty(wrongAnswer3);
     }
 
-    private static boolean isNullOrEmpty(String text){
-        return text == null | text.isEmpty() | text.trim().isEmpty();
+    private static boolean isNullOrEmpty(String text) {
+
+        try {
+            return text == null | text.isEmpty() | text.trim().isEmpty();
+        } catch (NullPointerException e) {
+            return true;
+        }
     }
 
     @Override
