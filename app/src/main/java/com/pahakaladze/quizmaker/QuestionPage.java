@@ -40,7 +40,9 @@ public class QuestionPage implements Serializable {
     }
 
     public void setAnswers(Answers answers) {
-        this.answers = answers;
+        if(!answers.hasEmptyFields()){
+            return;
+        } else this.answers = answers;
     }
 
     public boolean hasEmptyFields() {
