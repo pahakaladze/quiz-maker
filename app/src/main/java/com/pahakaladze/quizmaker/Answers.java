@@ -9,6 +9,9 @@ public class Answers implements Serializable {
     private String wrongAnswer2;
     private String wrongAnswer3;
 
+    private Answers(){
+    }
+
     //pattern builder
     public static class Builder {
         private Answers newAnswers;
