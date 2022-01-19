@@ -1,9 +1,14 @@
 package com.pahakaladze.quizmaker;
 
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class QuizList implements Serializable {
+    private static AppCompatActivity appCompatActivity = MainActivity.getContext();
     private volatile ArrayList<QuestionPage> list;
     private int currentPage, lastPage, firstPage;
     private static QuizList instance;
@@ -21,6 +26,7 @@ public class QuizList implements Serializable {
 
     public void addPage(QuestionPage questionPage) {
         if (questionPage.hasEmptyFields() | this.size() >= 30) { //max quantity of questions in quiz
+            Toast.makeText(appCompatActivity, "Page not added", Toast.LENGTH_SHORT).show();
             return;
         }
 
