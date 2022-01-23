@@ -45,6 +45,21 @@ public class Answers implements Serializable {
         }
     }
 
+    public void setCorrectAnswer(String correctAnswer) {
+        this.correctAnswer = correctAnswer;
+    }
+
+    public void setWrongAnswer(String wrongAnswer) {
+        this.wrongAnswer = wrongAnswer;
+    }
+
+    public void setWrongAnswer2(String wrongAnswer2) {
+        this.wrongAnswer2 = wrongAnswer2;
+    }
+
+    public void setWrongAnswer3(String wrongAnswer3) {
+        this.wrongAnswer3 = wrongAnswer3;
+    }
 
     public String getCorrectAnswer() {
         return correctAnswer;
