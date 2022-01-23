@@ -49,4 +49,19 @@ public class QuestionPage implements Serializable {
         return question.isEmpty() | answers.hasEmptyFields();
 
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        QuestionPage that = (QuestionPage) o;
+
+        return question != null ? question.equals(that.question) : that.question == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return question != null ? question.hashCode() : 0;
+    }
 }
