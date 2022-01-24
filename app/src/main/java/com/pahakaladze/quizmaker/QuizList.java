@@ -24,7 +24,7 @@ public class QuizList implements Serializable {
         return instance;
     }
 
-    public void addPage(QuestionPage questionPage) {
+    public void add(QuestionPage questionPage) {
         if (questionPage.hasEmptyFields() | this.size() >= 30) { //max quantity of questions in quiz
             Toast.makeText(appCompatActivity, "Page not added", Toast.LENGTH_SHORT).show();
             return;
@@ -40,10 +40,28 @@ public class QuizList implements Serializable {
         }
     }
 
+    public void refreshCurrent() {
+        QuestionPage viewedPage = MainActivity.getViewedPage();
+
+        if (viewedPage.hasEmptyFields() |
+                this.getCurrentPage().equals(viewedPage)) {
+            return;
+        }
+
+        if (this.list.size() == 0) {
+            setFirstPage(viewedPage);
+        } else {
+            list.add(currentPage, viewedPage);
+            currentPage++;
+            lastPage++;
+            ActivityController.activateElements();
+        }
+    }
+
     public void setFirstPage(QuestionPage page) {
         this.list.add(page);
         firstPage = 0;
-        currentPage = firstPage;
+        currentPage = 0;
         ActivityController.activateElements();
     }
 
