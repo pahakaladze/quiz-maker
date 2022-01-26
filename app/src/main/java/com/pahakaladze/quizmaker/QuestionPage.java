@@ -40,14 +40,25 @@ public class QuestionPage implements Serializable {
     }
 
     public void setAnswers(Answers answers) {
-        if(!answers.hasEmptyFields()){
+        if(answers.hasEmptyFields()){
             return;
         } else this.answers = answers;
     }
 
     public boolean hasEmptyFields() {
         return question.isEmpty() | answers.hasEmptyFields();
+    }
 
+    public QuestionPage makeInstance(){
+        QuestionPage questionPage = QuestionPage.getEmptyPage();
+        Answers answers = new Answers.Builder().build();
+        answers.setCorrectAnswer(this.getAnswers().getCorrectAnswer());
+        answers.setWrongAnswer(this.getAnswers().getWrongAnswers().get(0));
+        answers.setWrongAnswer2(this.getAnswers().getWrongAnswers().get(1));
+        answers.setWrongAnswer3(this.getAnswers().getWrongAnswers().get(2));
+        questionPage.setQuestion(this.getQuestion());
+        questionPage.setAnswers(answers);
+        return questionPage;
     }
 
     @Override
@@ -57,11 +68,15 @@ public class QuestionPage implements Serializable {
 
         QuestionPage that = (QuestionPage) o;
 
-        return question != null ? question.equals(that.question) : that.question == null;
+        if (question != null ? !question.equals(that.question) : that.question != null)
+            return false;
+        return answers != null ? answers.equals(that.answers) : that.answers == null;
     }
 
     @Override
     public int hashCode() {
-        return question != null ? question.hashCode() : 0;
+        int result = question != null ? question.hashCode() : 0;
+        result = 31 * result + (answers != null ? answers.hashCode() : 0);
+        return result;
     }
 }
