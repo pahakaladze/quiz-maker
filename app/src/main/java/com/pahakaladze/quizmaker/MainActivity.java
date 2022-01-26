@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         appCompatActivity = this;
+        loadQuiz(this.getCurrentFocus());
     }
 
     public static AppCompatActivity getContext() {
@@ -52,11 +53,13 @@ public class MainActivity extends AppCompatActivity {
         if (viewedPage.hasEmptyFields()) return;
 //        if (!quizList.getCurrentPage().equals(viewedPage)) {
 //        }
-        quizList.refreshCurrent();
-        QuizLoader.saveToFiles(viewedPage, this);
+        quizList.add(viewedPage);
+//        quizList.refreshCurrent();
+//        QuizLoader.saveToFiles(viewedPage, this);
 
-        QuestionPage emptyPage = QuestionPage.getEmptyPage();
-        showPage(emptyPage);
+//        QuestionPage emptyPage = QuestionPage.getEmptyPage();
+        showPage(quizList.getCurrentPage());
+        ActivityController.activateElements();
     }
 
     public void loadQuiz(View view) {
@@ -69,12 +72,14 @@ public class MainActivity extends AppCompatActivity {
         initializationOfFields();
         quizList.refreshCurrent();
         showPage(quizList.getNextPage());
+        ActivityController.activateElements();
     }
 
     public void previous(View view) {
         initializationOfFields();
         quizList.refreshCurrent();
         showPage(quizList.getPreviousPage());
+        ActivityController.activateElements();
     }
 
     private void showPage(QuestionPage page) {
