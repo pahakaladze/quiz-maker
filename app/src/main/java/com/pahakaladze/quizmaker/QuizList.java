@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class QuizList implements Serializable {
-    private static AppCompatActivity appCompatActivity = MainActivity.getContext();
     private volatile ArrayList<QuestionPage> list;
     private int currentPage, lastPage, firstPage;
     private static QuizList instance;
@@ -25,43 +24,29 @@ public class QuizList implements Serializable {
     }
 
     public void add(QuestionPage questionPage) {
-        if (questionPage.hasEmptyFields() | this.size() >= 30) { //max quantity of questions in quiz
-            Toast.makeText(appCompatActivity, "Page not added", Toast.LENGTH_SHORT).show();
+        if (lastPage != currentPage | this.size() >= 30) { //max quantity of questions in quiz
+            Toast.makeText(MainActivity.getContext(), "Page not added", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (this.list.size() == 0) {  //page will be added as first element if List is empty
-            setFirstPage(questionPage);
-        } else {
-            list.add(questionPage);
-            currentPage++;
-            lastPage++;
-            ActivityController.activateElements();
+        if (currentPage != 0 & this.getCurrentPage().hasEmptyFields()) {
+            list.remove(currentPage);
         }
+        list.add(questionPage.makeInstance());
+        list.add(QuestionPage.getEmptyPage());
+        currentPage = list.size() - 1;
+        lastPage = list.size() - 1;
+        ActivityController.activateElements();
     }
 
     public void refreshCurrent() {
         QuestionPage viewedPage = MainActivity.getViewedPage();
 
-        if (viewedPage.hasEmptyFields() |
-                this.getCurrentPage().equals(viewedPage)) {
+        if (viewedPage.hasEmptyFields() | this.getCurrentPage().equals(viewedPage)) {
             return;
         }
-
-        if (this.list.size() == 0) {
-            setFirstPage(viewedPage);
-        } else {
-            list.add(currentPage, viewedPage);
-            currentPage++;
-            lastPage++;
-            ActivityController.activateElements();
-        }
-    }
-
-    public void setFirstPage(QuestionPage page) {
-        this.list.add(page);
-        firstPage = 0;
-        currentPage = 0;
+        list.add(currentPage, viewedPage.makeInstance());
+        list.remove(currentPage + 1);
         ActivityController.activateElements();
     }
 
