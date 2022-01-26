@@ -19,7 +19,7 @@ public class QuizLoader {
 
         try {
 //            fos = new FileOutputStream(new File(context.getExternalFilesDir(null),FILE_NAME));
-            fos = context.openFileOutput("content.txt", Context.MODE_PRIVATE);
+            fos = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
             oos = new ObjectOutputStream(fos);
             quizList.add(questionPage);
             oos.writeObject(quizList);
@@ -50,6 +50,7 @@ public class QuizLoader {
             Toast.makeText(context, "Quiz loaded", Toast.LENGTH_SHORT).show();
 
         } catch (Exception ex) {
+            loadedPage = QuestionPage.getEmptyPage();
             Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
         } finally {
             try {
