@@ -2,14 +2,12 @@ package com.pahakaladze.quizmaker;
 
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class QuizList implements Serializable {
     private volatile ArrayList<QuestionPage> list;
-    private int currentPage, lastPage, firstPage;
+    private int currentPageIndex, lastPageIndex, firstPageIndex;
     private static QuizList instance;
 
     private QuizList() {
@@ -24,35 +22,40 @@ public class QuizList implements Serializable {
     }
 
     public void add(QuestionPage questionPage) {
-        if (lastPage != currentPage | this.size() >= 30) { //max quantity of questions in quiz
+        if (lastPageIndex != currentPageIndex |
+                this.getCurrentPage().equals(questionPage)) {
             Toast.makeText(MainActivity.getContext(), "Page not added", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (currentPage != 0 & this.getCurrentPage().hasEmptyFields()) {
-            list.remove(currentPage);
+        if (currentPageIndex != 0 & this.getCurrentPage().hasEmptyFields()) {
+            list.remove(currentPageIndex);
         }
         list.add(questionPage.makeInstance());
         list.add(QuestionPage.getEmptyPage());
-        currentPage = list.size() - 1;
-        lastPage = list.size() - 1;
+        currentPageIndex = list.size() - 1;
+        lastPageIndex = list.size() - 1;
         ActivityController.activateElements();
     }
 
     public void refreshCurrent() {
         QuestionPage viewedPage = MainActivity.getViewedPage();
-
-        if (viewedPage.hasEmptyFields() | this.getCurrentPage().equals(viewedPage)) {
+        QuestionPage currentPage = getCurrentPage();
+        if (viewedPage.hasEmptyFields() | currentPage.equals(viewedPage)) {
             return;
         }
-        list.add(currentPage, viewedPage.makeInstance());
-        list.remove(currentPage + 1);
-        ActivityController.activateElements();
+        currentPage.setQuestion(viewedPage.getQuestion());
+        currentPage.setAnswers(viewedPage.getAnswers());
+
+        if (currentPageIndex == lastPageIndex) {
+            list.add(QuestionPage.getEmptyPage());
+        }
+        lastPageIndex = list.size() - 1;
     }
 
     public QuestionPage getFirstPage() {
         if (this.size() > 0) {
-            return this.list.get(firstPage);
+            return this.list.get(firstPageIndex);
         } else
             return QuestionPage.getEmptyPage();
     }
@@ -69,22 +72,22 @@ public class QuizList implements Serializable {
             }
         }
         this.list = new ArrayList<>(sourceList);
-        firstPage = 0;
-        currentPage = 0;
-        lastPage = list.size() - 1;
+        firstPageIndex = 0;
+        currentPageIndex = 0;
+        lastPageIndex = list.size() - 1;
         ActivityController.activateElements();
     }
 
     public QuestionPage getCurrentPage() {
         if (this.size() > 0) {
-            return this.list.get(currentPage);
+            return this.list.get(currentPageIndex);
         } else
             return QuestionPage.getEmptyPage();
     }
 
-    public void setCurrentPage(int currentPage) {
-        if (currentPage >= 0 || currentPage <= lastPage)
-            this.currentPage = currentPage;
+    public void setCurrentPageIndex(int currentPageIndex) {
+        if (currentPageIndex >= 0 || currentPageIndex <= lastPageIndex)
+            this.currentPageIndex = currentPageIndex;
         ActivityController.activateElements();
     }
 
@@ -92,8 +95,8 @@ public class QuizList implements Serializable {
         return this.list.get(this.size() - 1);
     }
 
-    public void setLastPage(int lastPage) {
-        this.lastPage = lastPage;
+    public void setLastPageIndex(int lastPageIndex) {
+        this.lastPageIndex = lastPageIndex;
     }
 
     public int size() {
@@ -104,7 +107,7 @@ public class QuizList implements Serializable {
         int currentIndex = list.indexOf(getCurrentPage());
         int lastIndex = this.list.indexOf(getLastPage());
         if (lastIndex > currentIndex) {
-            setCurrentPage(++currentIndex);
+            setCurrentPageIndex(++currentIndex);
             return this.list.get(currentIndex);
         } else return getCurrentPage();
     }
@@ -113,7 +116,7 @@ public class QuizList implements Serializable {
         int currentIndex = this.list.indexOf(getCurrentPage());
         int firstIndex = this.list.indexOf(getFirstPage());
         if (firstIndex < currentIndex) {
-            setCurrentPage(--currentIndex);
+            setCurrentPageIndex(--currentIndex);
             return list.get(currentIndex);
         } else return getCurrentPage();
     }
