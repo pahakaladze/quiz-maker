@@ -42,7 +42,12 @@ public class QuestionPage implements Serializable {
     public void setAnswers(Answers answers) {
         if(answers.hasEmptyFields()){
             return;
-        } else this.answers = answers;
+        } else {
+            this.answers.setCorrectAnswer(answers.getCorrectAnswer());
+            this.answers.setWrongAnswer(answers.getWrongAnswers().get(0));
+            this.answers.setWrongAnswer2(answers.getWrongAnswers().get(1));
+            this.answers.setWrongAnswer3(answers.getWrongAnswers().get(2));
+        }
     }
 
     public boolean hasEmptyFields() {
