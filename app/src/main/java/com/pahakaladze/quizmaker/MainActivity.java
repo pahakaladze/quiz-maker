@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
         appCompatActivity = this;
         loadQuiz(this.getCurrentFocus());
     }
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void newQuestion(View view) {
         initializationOfFields();
-        if (viewedPage.hasEmptyFields()) return;
+        if (viewedPage.hasEmptyFields() | quizList.size() >= 30) return;
 //        if (!quizList.getCurrentPage().equals(viewedPage)) {
 //        }
         quizList.add(viewedPage);
