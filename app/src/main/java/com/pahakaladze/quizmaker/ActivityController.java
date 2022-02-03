@@ -10,10 +10,9 @@ public class ActivityController {
     private static AppCompatActivity appCompatActivity = MainActivity.getContext();
     private static StringBuilder pageNumberText = new StringBuilder();
     private static QuizList quizList;
-    private static int listSize;
-    private static int currentPage;
-    private static int firstPage;
-    private static int lastPage;
+    private static int currentPageIndex;
+    private static int firstPageIndex;
+    private static int lastPageIndex;
 
     private ActivityController() {
 
@@ -21,30 +20,27 @@ public class ActivityController {
 
     public static void activateElements() {
         initialization();
-        if (listSize == 0) return;
+        if (quizList.size() == 0) return;
         activateNextAndPreviousButtons();
         activatePageNumberElement();
-        activateNewQuestionButton();
     }
 
     private static void initialization() {
         quizList = QuizList.getInstance();
-        listSize = quizList.getList().size();
-        currentPage = quizList.getList().indexOf(quizList.getCurrentPage());
-        firstPage = quizList.getList().indexOf(quizList.getFirstPage());
-        lastPage = quizList.getList().indexOf(quizList.getLastPage());
+        currentPageIndex = quizList.getCurrentPageIndex();
+        lastPageIndex = quizList.getLastPageIndex();
     }
 
-    private static void activateNextAndPreviousButtons(){
+    private static void activateNextAndPreviousButtons() {
         Button nextBtn = (Button) appCompatActivity.findViewById(R.id.next);
         Button previousBtn = (Button) appCompatActivity.findViewById(R.id.previous);
-        if (currentPage > firstPage) {
+        if (currentPageIndex > firstPageIndex) {
             previousBtn.setVisibility(View.VISIBLE);
         } else {
             previousBtn.setVisibility(View.INVISIBLE);
         }
 
-        if (currentPage < lastPage) {
+        if (currentPageIndex < lastPageIndex) {
             nextBtn.setVisibility(View.VISIBLE);
         } else {
             nextBtn.setVisibility(View.INVISIBLE);
@@ -56,16 +52,8 @@ public class ActivityController {
             pageNumberText.delete(0, pageNumberText.length());
         }
         pageNumberText.append(appCompatActivity.getResources().getString(R.string.page_number));
-        pageNumberText.append((currentPage + 1));
+        pageNumberText.append((currentPageIndex + 1));
         TextView pageNumberElement = (TextView) appCompatActivity.findViewById(R.id.pageNumber);
         pageNumberElement.setText(pageNumberText);
-    }
-
-    private static void activateNewQuestionButton(){
-            Button newQuestionBtn = (Button) appCompatActivity.findViewById(R.id.newQuestion);
-        if(currentPage == lastPage && !quizList.getCurrentPage().hasEmptyFields()){
-            newQuestionBtn.setVisibility(View.VISIBLE);
-        }
-        else newQuestionBtn.setVisibility(View.INVISIBLE);
     }
 }
