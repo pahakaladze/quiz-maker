@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
-    private QuestionPage qPage;
 
     private EditText question;
     private EditText correctAnswer;
@@ -52,15 +51,8 @@ public class MainActivity extends AppCompatActivity {
     public void newQuestion(View view) {
         initializationOfFields();
         if (viewedPage.hasEmptyFields() | quizList.size() >= 30) return;
-//        if (!quizList.getCurrentPage().equals(viewedPage)) {
-//        }
         quizList.add(viewedPage);
-//        quizList.refreshCurrent();
-//        QuizLoader.saveToFiles(viewedPage, this);
-
-//        QuestionPage emptyPage = QuestionPage.getEmptyPage();
         showPage(quizList.getCurrentPage());
-        ActivityController.activateElements();
     }
 
     public void loadQuiz(View view) {
@@ -69,18 +61,22 @@ public class MainActivity extends AppCompatActivity {
         showPage(loadedPage);
     }
 
+    public void deletePage(View view){
+        initializationOfFields();
+        quizList.deleteCurrent();
+        showPage(quizList.getCurrentPage());
+    }
+
     public void next(View view) {
         initializationOfFields();
         quizList.refreshCurrent();
         showPage(quizList.getNextPage());
-        ActivityController.activateElements();
     }
 
     public void previous(View view) {
         initializationOfFields();
         quizList.refreshCurrent();
         showPage(quizList.getPreviousPage());
-        ActivityController.activateElements();
     }
 
     private void showPage(QuestionPage page) {
@@ -89,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         wrongAnswer.setText(page.getAnswers().getWrongAnswers().get(0));
         wrongAnswer2.setText(page.getAnswers().getWrongAnswers().get(1));
         wrongAnswer3.setText(page.getAnswers().getWrongAnswers().get(2));
+        ActivityController.activateElements();
     }
 
 
