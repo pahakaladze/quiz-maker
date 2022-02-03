@@ -2,15 +2,12 @@ package com.pahakaladze.quizmaker;
 
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class QuizList implements Serializable {
-    private static AppCompatActivity appCompatActivity = MainActivity.getContext();
     private volatile ArrayList<QuestionPage> list;
-    private int currentPage, lastPage, firstPage;
+    private int currentPageIndex, lastPageIndex, firstPageIndex;
     private static QuizList instance;
 
     private QuizList() {
@@ -25,51 +22,64 @@ public class QuizList implements Serializable {
     }
 
     public void add(QuestionPage questionPage) {
-        if (questionPage.hasEmptyFields() | this.size() >= 30) { //max quantity of questions in quiz
-            Toast.makeText(appCompatActivity, "Page not added", Toast.LENGTH_SHORT).show();
+        if (lastPageIndex != currentPageIndex |
+                this.getCurrentPage().equals(questionPage)) {
+            Toast.makeText(MainActivity.getContext(), "Page not added", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (this.list.size() == 0) {  //page will be added as first element if List is empty
-            setFirstPage(questionPage);
-        } else {
-            list.add(questionPage);
-            currentPage++;
-            lastPage++;
-            ActivityController.activateElements();
+        if (list.size() > 0 & this.getCurrentPage().hasEmptyFields()) {
+            list.remove(currentPageIndex);
         }
+        list.add(questionPage.makeInstance());
+        list.add(QuestionPage.getEmptyPage());
+        currentPageIndex = list.size() - 1;
+        lastPageIndex = list.size() - 1;
+        QuizLoader.saveToFiles(MainActivity.getContext());
     }
 
     public void refreshCurrent() {
         QuestionPage viewedPage = MainActivity.getViewedPage();
-
-        if (viewedPage.hasEmptyFields() |
-                this.getCurrentPage().equals(viewedPage)) {
+        QuestionPage currentPage = getCurrentPage();
+        if (viewedPage.hasEmptyFields() | currentPage.equals(viewedPage)) {
             return;
         }
+        currentPage.setQuestion(viewedPage.getQuestion());
+        currentPage.setAnswers(viewedPage.getAnswers());
 
-        if (this.list.size() == 0) {
-            setFirstPage(viewedPage);
-        } else {
-            list.add(currentPage, viewedPage);
-            currentPage++;
-            lastPage++;
-            ActivityController.activateElements();
+        if (currentPageIndex == lastPageIndex) {
+            list.add(QuestionPage.getEmptyPage());
         }
+        lastPageIndex = list.size() - 1;
+        QuizLoader.saveToFiles(MainActivity.getContext());
     }
 
-    public void setFirstPage(QuestionPage page) {
-        this.list.add(page);
-        firstPage = 0;
-        currentPage = 0;
-        ActivityController.activateElements();
+    public void deleteCurrent(){
+        if(getCurrentPage().hasEmptyFields()) {
+            return;
+        }
+        list.remove(currentPageIndex);
+        lastPageIndex = list.size() - 1;
+        QuizLoader.saveToFiles(MainActivity.getContext());
     }
 
     public QuestionPage getFirstPage() {
         if (this.size() > 0) {
-            return this.list.get(firstPage);
+            return this.list.get(firstPageIndex);
         } else
             return QuestionPage.getEmptyPage();
+    }
+
+    public int getFirstPageIndex(){
+        return firstPageIndex;
+    }
+
+    public int getCurrentPageIndex(){
+        return currentPageIndex;
+    }
+
+    public int getLastPageIndex(){
+        return list.size() > 0 ? list.size() - 1 : 0;
     }
 
     public ArrayList<QuestionPage> getList() {
@@ -79,36 +89,37 @@ public class QuizList implements Serializable {
     public void setList(ArrayList<QuestionPage> sourceList) {
         if (sourceList == null | sourceList.size() > 30) return;
         for (QuestionPage elementOfList : sourceList) {
-            if (elementOfList == null | elementOfList.hasEmptyFields()) {
+            if (elementOfList == null) {
                 return;
             }
         }
         this.list = new ArrayList<>(sourceList);
-        firstPage = 0;
-        currentPage = 0;
-        lastPage = list.size() - 1;
+        firstPageIndex = 0;
+        currentPageIndex = 0;
+        lastPageIndex = list.size() - 1;
         ActivityController.activateElements();
     }
 
     public QuestionPage getCurrentPage() {
         if (this.size() > 0) {
-            return this.list.get(currentPage);
+            return this.list.get(currentPageIndex);
         } else
             return QuestionPage.getEmptyPage();
     }
 
-    public void setCurrentPage(int currentPage) {
-        if (currentPage >= 0 || currentPage <= lastPage)
-            this.currentPage = currentPage;
-        ActivityController.activateElements();
+    public void setCurrentPageIndex(int currentPageIndex) {
+        if (currentPageIndex >= 0 || currentPageIndex <= lastPageIndex)
+            this.currentPageIndex = currentPageIndex;
     }
 
     public QuestionPage getLastPage() {
         return this.list.get(this.size() - 1);
     }
 
-    public void setLastPage(int lastPage) {
-        this.lastPage = lastPage;
+    public void setLastPageIndex(int lastPageIndex) {
+        if (this.size() > 0) {
+            this.lastPageIndex = lastPageIndex;
+        } else this.lastPageIndex = 0;
     }
 
     public int size() {
@@ -119,7 +130,7 @@ public class QuizList implements Serializable {
         int currentIndex = list.indexOf(getCurrentPage());
         int lastIndex = this.list.indexOf(getLastPage());
         if (lastIndex > currentIndex) {
-            setCurrentPage(++currentIndex);
+            setCurrentPageIndex(++currentIndex);
             return this.list.get(currentIndex);
         } else return getCurrentPage();
     }
@@ -128,7 +139,7 @@ public class QuizList implements Serializable {
         int currentIndex = this.list.indexOf(getCurrentPage());
         int firstIndex = this.list.indexOf(getFirstPage());
         if (firstIndex < currentIndex) {
-            setCurrentPage(--currentIndex);
+            setCurrentPageIndex(--currentIndex);
             return list.get(currentIndex);
         } else return getCurrentPage();
     }
