@@ -28,14 +28,14 @@ public class QuizList implements Serializable {
             return;
         }
 
-        if (currentPageIndex != 0 & this.getCurrentPage().hasEmptyFields()) {
+        if (list.size() > 0 & this.getCurrentPage().hasEmptyFields()) {
             list.remove(currentPageIndex);
         }
         list.add(questionPage.makeInstance());
         list.add(QuestionPage.getEmptyPage());
         currentPageIndex = list.size() - 1;
         lastPageIndex = list.size() - 1;
-        ActivityController.activateElements();
+        QuizLoader.saveToFiles(MainActivity.getContext());
     }
 
     public void refreshCurrent() {
@@ -51,6 +51,16 @@ public class QuizList implements Serializable {
             list.add(QuestionPage.getEmptyPage());
         }
         lastPageIndex = list.size() - 1;
+        QuizLoader.saveToFiles(MainActivity.getContext());
+    }
+
+    public void deleteCurrent(){
+        if(getCurrentPage().hasEmptyFields()) {
+            return;
+        }
+        list.remove(currentPageIndex);
+        lastPageIndex = list.size() - 1;
+        QuizLoader.saveToFiles(MainActivity.getContext());
     }
 
     public QuestionPage getFirstPage() {
@@ -60,6 +70,18 @@ public class QuizList implements Serializable {
             return QuestionPage.getEmptyPage();
     }
 
+    public int getFirstPageIndex(){
+        return firstPageIndex;
+    }
+
+    public int getCurrentPageIndex(){
+        return currentPageIndex;
+    }
+
+    public int getLastPageIndex(){
+        return list.size() > 0 ? list.size() - 1 : 0;
+    }
+
     public ArrayList<QuestionPage> getList() {
         return this.list;
     }
@@ -67,7 +89,7 @@ public class QuizList implements Serializable {
     public void setList(ArrayList<QuestionPage> sourceList) {
         if (sourceList == null | sourceList.size() > 30) return;
         for (QuestionPage elementOfList : sourceList) {
-            if (elementOfList == null | elementOfList.hasEmptyFields()) {
+            if (elementOfList == null) {
                 return;
             }
         }
@@ -88,7 +110,6 @@ public class QuizList implements Serializable {
     public void setCurrentPageIndex(int currentPageIndex) {
         if (currentPageIndex >= 0 || currentPageIndex <= lastPageIndex)
             this.currentPageIndex = currentPageIndex;
-        ActivityController.activateElements();
     }
 
     public QuestionPage getLastPage() {
@@ -96,7 +117,9 @@ public class QuizList implements Serializable {
     }
 
     public void setLastPageIndex(int lastPageIndex) {
-        this.lastPageIndex = lastPageIndex;
+        if (this.size() > 0) {
+            this.lastPageIndex = lastPageIndex;
+        } else this.lastPageIndex = 0;
     }
 
     public int size() {
