@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText question;
@@ -16,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private static AppCompatActivity appCompatActivity;
     private QuizList quizList = QuizList.getInstance();
     private static QuestionPage viewedPage = QuestionPage.getEmptyPage();
+    private AdView mAdView;
 
 
     @Override
@@ -25,6 +29,34 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         appCompatActivity = this;
         loadQuiz(this.getCurrentFocus());
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+    }
+
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
     }
 
     public static AppCompatActivity getContext() {
