@@ -21,7 +21,6 @@ public class QuizLoader {
             oos = new ObjectOutputStream(fos);
             oos.writeObject(QuizList.getInstance());
             oos.close();
-            Toast.makeText(context, "Quiz saved", Toast.LENGTH_SHORT).show();
         } catch (IOException ex) {
             Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
         } finally {
@@ -47,8 +46,6 @@ public class QuizLoader {
             loadedPage = quizList.getFirstPage();
             quizList.setCurrentPageIndex(0);
             quizList.setLastPageIndex(quizList.size() - 1);
-            Toast.makeText(context, "Quiz loaded", Toast.LENGTH_SHORT).show();
-
         } catch (Exception ex) {
             loadedPage = QuestionPage.getEmptyPage();
             Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
