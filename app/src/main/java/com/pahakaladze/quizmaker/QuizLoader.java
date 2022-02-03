@@ -7,22 +7,19 @@ import java.io.*;
 
 public class QuizLoader {
     private final static String FILE_NAME = "content.txt";
-    private static QuizList quizList = QuizList.getInstance();
 
     private QuizLoader(){
     }
 
-    public static void saveToFiles(QuestionPage questionPage, Context context) {
+    public static void saveToFiles(Context context) {
 
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
 
         try {
-//            fos = new FileOutputStream(new File(context.getExternalFilesDir(null),FILE_NAME));
             fos = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
             oos = new ObjectOutputStream(fos);
-            quizList.add(questionPage);
-            oos.writeObject(quizList);
+            oos.writeObject(QuizList.getInstance());
             oos.close();
             Toast.makeText(context, "Quiz saved", Toast.LENGTH_SHORT).show();
         } catch (IOException ex) {
@@ -44,9 +41,12 @@ public class QuizLoader {
         try {
             fin = context.openFileInput(FILE_NAME);
             ObjectInputStream ois = new ObjectInputStream(fin);
-            quizList = (QuizList) ois.readObject();
+            QuizList quizList = (QuizList) ois.readObject();
             QuizList.getInstance().setList(quizList.getList());
-            loadedPage = QuizList.getInstance().getFirstPage();
+            quizList = QuizList.getInstance();
+            loadedPage = quizList.getFirstPage();
+            quizList.setCurrentPageIndex(0);
+            quizList.setLastPageIndex(quizList.size() - 1);
             Toast.makeText(context, "Quiz loaded", Toast.LENGTH_SHORT).show();
 
         } catch (Exception ex) {
