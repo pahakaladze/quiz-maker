@@ -3,19 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/blur"
-    >
+    android:orientation="vertical">
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="5dp"
-        >
+        android:padding="5dp">
 
         <Button
-            android:id="@+id/loadQuiz"
+            android:id="@+id/deletePage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -25,10 +31,9 @@
             android:layout_marginEnd="@dimen/layout_margin"
             android:layout_marginRight="@dimen/layout_margin"
             android:layout_marginBottom="@dimen/layout_margin"
-            android:onClick="loadQuiz"
-            android:text="@string/load_button"
             android:backgroundTint="#0043EE"
-            />
+            android:onClick="deletePage"
+            android:text="@string/delete_button" />
 
         <Button
             android:id="@+id/newQuestion"
@@ -41,9 +46,9 @@
             android:layout_marginEnd="@dimen/layout_margin"
             android:layout_marginRight="@dimen/layout_margin"
             android:layout_marginBottom="@dimen/layout_margin"
+            android:backgroundTint="#0043EE"
             android:onClick="newQuestion"
-            android:text="@string/save_button"
-            android:backgroundTint="#0043EE"/>
+            android:text="@string/save_button" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -54,6 +59,7 @@
 
         <Button
             android:id="@+id/previous"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -63,9 +69,8 @@
             android:layout_marginEnd="@dimen/layout_margin"
             android:layout_marginRight="@dimen/layout_margin"
             android:layout_marginBottom="@dimen/layout_margin"
-            android:onClick="previous"
-            style="@style/Widget.AppCompat.Button.Borderless"
             android:drawableLeft="@drawable/ic_baseline_keyboard_arrow_left_24"
+            android:onClick="previous"
             android:visibility="invisible" />
 
         <TextView
@@ -81,12 +86,11 @@
             android:layout_marginTop="@dimen/layout_margin"
             android:layout_marginEnd="@dimen/layout_margin"
             android:layout_marginRight="@dimen/layout_margin"
-            android:layout_marginBottom="@dimen/layout_margin"/>
-<!--            android:text="@string/page_number"-->
-
+            android:layout_marginBottom="@dimen/layout_margin" />
 
         <Button
             android:id="@+id/next"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -96,10 +100,9 @@
             android:layout_marginEnd="@dimen/layout_margin"
             android:layout_marginRight="@dimen/layout_margin"
             android:layout_marginBottom="@dimen/layout_margin"
-            android:onClick="next"
-            style="@style/Widget.AppCompat.Button.Borderless"
             android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
-            android:visibility="invisible"/>
+            android:onClick="next"
+            android:visibility="invisible" />
 
         <EditText
             android:id="@+id/editQuestion"
@@ -109,7 +112,8 @@
             android:hint="@string/hint_question"
             android:inputType="textMultiLine"
             android:maxLength="80"
-            android:maxLines="3" />
+            android:maxLines="3"
+            android:textAlignment="center"/>
 
     </RelativeLayout>
 
@@ -118,23 +122,21 @@
         android:layout_height="0dp"
         android:layout_weight="2"
         android:orientation="vertical"
-        android:padding="5dp"
-        >
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <EditText
             android:id="@+id/correctAnswer"
             style="@style/AnswerStyle"
-            android:hint="@string/hint_correct_answer"
-            android:textAlignment="center"
             android:background="@drawable/right_answer_selector"
-            />
+            android:hint="@string/hint_correct_answer"
+            android:textAlignment="center" />
 
         <EditText
             android:id="@+id/wrongAnswer"
             style="@style/AnswerStyle"
             android:background="@drawable/wrong_answer_selector"
             android:hint="@string/hint_wrong_answer"
-
             android:textAlignment="center" />
 
         <EditText
@@ -150,7 +152,6 @@
             android:background="@drawable/wrong_answer_selector"
             android:hint="@string/hint_wrong_answer3"
             android:textAlignment="center" />
-
-   </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
