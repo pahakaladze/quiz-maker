@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
         appCompatActivity = this;
-        loadQuiz(this.getCurrentFocus());
+        loadQuiz();
 
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         showPage(quizList.getCurrentPage());
     }
 
-    public void loadQuiz(View view) {
+    public void loadQuiz() {
         initializationOfFields();
         QuestionPage loadedPage = QuizLoader.loadFromFiles(this);
         showPage(loadedPage);
