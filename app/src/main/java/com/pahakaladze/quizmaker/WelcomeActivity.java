@@ -16,7 +16,8 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void startQuiz(View view){
-
+        Intent intent = new Intent(this, TestQuizActivity.class);
+        startActivity(intent);
     }
 
     public void startQuizMaker(View view){
