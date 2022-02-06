@@ -1,156 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/blur"
-    >
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="5dp"
-        >
-
-        <Button
-            android:id="@+id/loadQuiz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginLeft="@dimen/layout_margin"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:layout_marginEnd="@dimen/layout_margin"
-            android:layout_marginRight="@dimen/layout_margin"
-            android:layout_marginBottom="@dimen/layout_margin"
-            android:onClick="loadQuiz"
-            android:text="@string/load_button"
-            android:backgroundTint="#0043EE"
-            />
-
-        <Button
-            android:id="@+id/newQuestion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginLeft="@dimen/layout_margin"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:layout_marginEnd="@dimen/layout_margin"
-            android:layout_marginRight="@dimen/layout_margin"
-            android:layout_marginBottom="@dimen/layout_margin"
-            android:onClick="newQuestion"
-            android:text="@string/save_button"
-            android:backgroundTint="#0043EE"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:padding="5dp">
-
-        <Button
-            android:id="@+id/previous"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginLeft="@dimen/layout_margin"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:layout_marginEnd="@dimen/layout_margin"
-            android:layout_marginRight="@dimen/layout_margin"
-            android:layout_marginBottom="@dimen/layout_margin"
-            android:onClick="previous"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:drawableLeft="@drawable/ic_baseline_keyboard_arrow_left_24"
-            android:visibility="invisible" />
-
-        <TextView
-            android:id="@+id/pageNumber"
-            style="@style/AnswerStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/next"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginLeft="@dimen/layout_margin"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:layout_marginEnd="@dimen/layout_margin"
-            android:layout_marginRight="@dimen/layout_margin"
-            android:layout_marginBottom="@dimen/layout_margin"/>
-<!--            android:text="@string/page_number"-->
-
-
-        <Button
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginLeft="@dimen/layout_margin"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:layout_marginEnd="@dimen/layout_margin"
-            android:layout_marginRight="@dimen/layout_margin"
-            android:layout_marginBottom="@dimen/layout_margin"
-            android:onClick="next"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
-            android:visibility="invisible"/>
-
-        <EditText
-            android:id="@+id/editQuestion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:hint="@string/hint_question"
-            android:inputType="textMultiLine"
-            android:maxLength="80"
-            android:maxLines="3" />
-
-    </RelativeLayout>
+    android:fillViewport="true">
 
     <LinearLayout
+
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:orientation="vertical"
-        android:padding="5dp"
-        >
+        android:layout_height="match_parent"
+        android:background="@drawable/blur"
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/correctAnswer"
-            style="@style/AnswerStyle"
-            android:hint="@string/hint_correct_answer"
-            android:textAlignment="center"
-            android:background="@drawable/right_answer_selector"
-            />
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"></com.google.android.gms.ads.AdView>
 
-        <EditText
-            android:id="@+id/wrongAnswer"
-            style="@style/AnswerStyle"
-            android:background="@drawable/wrong_answer_selector"
-            android:hint="@string/hint_wrong_answer"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="5dp">
 
-            android:textAlignment="center" />
+            <Button
+                android:id="@+id/newQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="@dimen/layout_margin"
+                android:layout_marginLeft="@dimen/layout_margin"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_marginEnd="@dimen/layout_margin"
+                android:layout_marginRight="@dimen/layout_margin"
+                android:layout_marginBottom="@dimen/layout_margin"
+                android:backgroundTint="#0043EE"
+                android:onClick="newQuestion"
+                android:text="@string/new_button" />
 
-        <EditText
-            android:id="@+id/wrongAnswer2"
-            style="@style/AnswerStyle"
-            android:background="@drawable/wrong_answer_selector"
-            android:hint="@string/hint_wrong_answer2"
-            android:textAlignment="center" />
+            <Button
+                android:id="@+id/deletePage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="@dimen/layout_margin"
+                android:layout_marginLeft="@dimen/layout_margin"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_marginEnd="@dimen/layout_margin"
+                android:layout_marginRight="@dimen/layout_margin"
+                android:layout_marginBottom="@dimen/layout_margin"
+                android:backgroundTint="#0043EE"
+                android:onClick="deletePage"
+                android:text="@string/delete_button" />
 
-        <EditText
-            android:id="@+id/wrongAnswer3"
-            style="@style/AnswerStyle"
-            android:background="@drawable/wrong_answer_selector"
-            android:hint="@string/hint_wrong_answer3"
-            android:textAlignment="center" />
+            <Button
+                android:id="@+id/test_quiz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginStart="@dimen/layout_margin"
+                android:layout_marginLeft="@dimen/layout_margin"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_marginEnd="@dimen/layout_margin"
+                android:layout_marginRight="@dimen/layout_margin"
+                android:layout_marginBottom="@dimen/layout_margin"
+                android:backgroundTint="#0043EE"
+                android:onClick="testQuiz"
+                android:text="@string/test_quiz" />
+        </RelativeLayout>
 
-   </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:padding="5dp">
 
-</LinearLayout>
+            <Button
+                android:id="@+id/previous"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/layout_margin"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_marginRight="@dimen/layout_margin"
+                android:layout_marginBottom="@dimen/layout_margin"
+                android:drawableLeft="@drawable/ic_baseline_keyboard_arrow_left_24"
+                android:onClick="previous"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/pageNumber"
+                style="@style/AnswerStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/next"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/layout_margin"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_marginRight="@dimen/layout_margin"
+                android:layout_marginBottom="@dimen/layout_margin" />
+
+            <Button
+                android:id="@+id/next"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/layout_margin"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_marginRight="@dimen/layout_margin"
+                android:layout_marginBottom="@dimen/layout_margin"
+                android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
+                android:onClick="next"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/editQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:hint="@string/hint_question"
+                android:inputType="textMultiLine"
+                android:maxLength="80"
+                android:maxLines="3"
+                android:textAlignment="center" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <EditText
+                android:id="@+id/correctAnswer"
+                style="@style/AnswerStyle"
+                android:background="@drawable/right_answer_selector"
+                android:hint="@string/hint_correct_answer"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/wrongAnswer"
+                style="@style/AnswerStyle"
+                android:background="@drawable/wrong_answer_selector"
+                android:hint="@string/hint_wrong_answer"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/wrongAnswer2"
+                style="@style/AnswerStyle"
+                android:background="@drawable/wrong_answer_selector"
+                android:hint="@string/hint_wrong_answer2"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/wrongAnswer3"
+                style="@style/AnswerStyle"
+                android:background="@drawable/wrong_answer_selector"
+                android:hint="@string/hint_wrong_answer3"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
