@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
+        setContentView(R.layout.activity_main);
         appCompatActivity = this;
         loadQuiz();
 
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
             mAdView.pause();
         }
         super.onPause();
+        onDestroy();
     }
 
     @Override
@@ -82,12 +83,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void newQuestion(View view) {
         initializationOfFields();
-        if (viewedPage.hasEmptyFields() | quizList.size() >= 30) return;
+        if (viewedPage.hasEmptyFields()) return;
         quizList.add(viewedPage);
         showPage(quizList.getCurrentPage());
     }
 
-    public void loadQuiz() {
+    private void loadQuiz() {
         initializationOfFields();
         QuestionPage loadedPage = QuizLoader.loadFromFiles(this);
         showPage(loadedPage);
