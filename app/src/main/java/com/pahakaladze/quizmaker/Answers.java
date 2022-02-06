@@ -2,6 +2,7 @@ package com.pahakaladze.quizmaker;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Answers implements Serializable {
     private String correctAnswer;
@@ -70,6 +71,13 @@ public class Answers implements Serializable {
         list.add(wrongAnswer);
         list.add(wrongAnswer2);
         list.add(wrongAnswer3);
+        return list;
+    }
+    public ArrayList<String> getMixedAnswers(){
+        ArrayList<String> list = new ArrayList<>(4);
+        list.addAll(getWrongAnswers());
+        list.add(getCorrectAnswer());
+        Collections.shuffle(list);
         return list;
     }
 
