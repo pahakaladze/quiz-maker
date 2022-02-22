@@ -1,7 +1,9 @@
 package com.pahakaladze.quizmaker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -9,7 +11,7 @@ import android.widget.EditText;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-public class MainActivity extends AppCompatActivity {
+public class QuizMakerActivity extends AppCompatActivity {
 
     private EditText question;
     private EditText correctAnswer;
@@ -19,45 +21,53 @@ public class MainActivity extends AppCompatActivity {
     private static AppCompatActivity appCompatActivity;
     private QuizList quizList = QuizList.getInstance();
     private static QuestionPage viewedPage = QuestionPage.getEmptyPage();
-    private AdView mAdView;
+    private AdView adView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_quiz_maker);
         appCompatActivity = this;
         loadQuiz();
 
-        mAdView = findViewById(R.id.adView);
+        adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        adView.loadAd(adRequest);
     }
 
     @Override
     public void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();
+        if (adView != null) {
+            adView.pause();
         }
         super.onPause();
-        onDestroy();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (mAdView != null) {
-            mAdView.resume();
+        if (adView != null) {
+            adView.resume();
         }
     }
 
     @Override
     public void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
+        if (adView != null) {
+            adView.destroy();
         }
         super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        if (adView != null) {
+            adView.pause();
+        }
+        super.onStop();
     }
 
     public static AppCompatActivity getContext() {
@@ -100,6 +110,11 @@ public class MainActivity extends AppCompatActivity {
         showPage(quizList.getCurrentPage());
     }
 
+    public void homePage(View view) {
+        Intent intent = new Intent(this, WelcomeActivity.class);
+        startActivity(intent);
+    }
+
     public void next(View view) {
         initializationOfFields();
         quizList.refreshCurrent();
@@ -118,10 +133,9 @@ public class MainActivity extends AppCompatActivity {
         wrongAnswer.setText(page.getAnswers().getWrongAnswers().get(0));
         wrongAnswer2.setText(page.getAnswers().getWrongAnswers().get(1));
         wrongAnswer3.setText(page.getAnswers().getWrongAnswers().get(2));
-        ActivityController.activateElements();
+        QuizMakerGrafics.activateElements();
     }
 
 
 }
 
-//TODO scrolling in activitymain
