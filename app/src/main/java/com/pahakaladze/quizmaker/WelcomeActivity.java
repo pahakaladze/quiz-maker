@@ -1,6 +1,7 @@
 package com.pahakaladze.quizmaker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_welcome);
         getSupportActionBar().hide();
     }
@@ -21,7 +23,12 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void startQuizMaker(View view){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, QuizMakerActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 }
