@@ -1,144 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".TestQuizActivity">
+    android:fillViewport="true">
 
-    <ScrollView
-        android:id="@+id/scroll_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:background="@drawable/blur"
+        android:orientation="vertical">
+
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"></com.google.android.gms.ads.AdView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="5dp">
+
+            <Button
+                android:id="@+id/homePage"
+                style="@style/TopButtons"
+                android:layout_alignParentLeft="true"
+                android:onClick="homePage"
+                android:text="@string/home_page" />
+
+            <Button
+                android:id="@+id/skipQuestion"
+                style="@style/TopButtons"
+                android:layout_centerHorizontal="true"
+                android:onClick="skipQuestion"
+                android:text="@string/skip_button" />
+
+            <Button
+                android:id="@+id/closeApp"
+                style="@style/TopButtons"
+                android:layout_alignParentRight="true"
+                android:onClick="closeApplication"
+                android:text="@string/close_button" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/pageNumber"
+                style="@style/AnswerEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/layout_margin"
+                android:layout_marginLeft="@dimen/layout_margin"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_marginEnd="@dimen/layout_margin"
+                android:layout_marginRight="@dimen/layout_margin"
+                android:layout_marginBottom="@dimen/layout_margin" />
+
+            <TextView
+                android:id="@+id/question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:maxLength="80"
+                android:maxLines="3"
+                android:textSize="30dp"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/blur"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/layout_margin"
+            android:paddingRight="@dimen/layout_margin">
 
-            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/adView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                ads:adSize="BANNER"
-                ads:adUnitId="ca-app-pub-3940256099942544/6300978111"></com.google.android.gms.ads.AdView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/answerBtn1"
+                style="@style/AnswerButton" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:padding="5dp">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/answerBtn2"
+                style="@style/AnswerButton" />
 
-                <Button
-                    android:id="@+id/newQuestion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginStart="@dimen/layout_margin"
-                    android:layout_marginLeft="@dimen/layout_margin"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_marginEnd="@dimen/layout_margin"
-                    android:layout_marginRight="@dimen/layout_margin"
-                    android:layout_marginBottom="@dimen/layout_margin"
-                    android:backgroundTint="#0043EE"
-                    android:onClick="newQuestion"
-                    android:text="@string/new_button" />
+            <com.google.android.material.button.MaterialButton xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/answerBtn3"
+                style="@style/AnswerButton" />
 
-                <Button
-                    android:id="@+id/deletePage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="@dimen/layout_margin"
-                    android:layout_marginLeft="@dimen/layout_margin"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_marginEnd="@dimen/layout_margin"
-                    android:layout_marginRight="@dimen/layout_margin"
-                    android:layout_marginBottom="@dimen/layout_margin"
-                    android:backgroundTint="#0043EE"
-                    android:onClick="deletePage"
-                    android:text="@string/delete_button" />
-
-                <Button
-                    android:id="@+id/test_quiz"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginStart="@dimen/layout_margin"
-                    android:layout_marginLeft="@dimen/layout_margin"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_marginEnd="@dimen/layout_margin"
-                    android:layout_marginRight="@dimen/layout_margin"
-                    android:layout_marginBottom="@dimen/layout_margin"
-                    android:backgroundTint="#0043EE"
-                    android:onClick="testQuiz"
-                    android:text="@string/test_quiz" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/pageNumber"
-                    style="@style/AnswerStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="@dimen/layout_margin"
-                    android:layout_marginLeft="@dimen/layout_margin"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_marginEnd="@dimen/layout_margin"
-                    android:layout_marginRight="@dimen/layout_margin"
-                    android:layout_marginBottom="@dimen/layout_margin" />
-
-                <TextView
-                    android:id="@+id/question"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:maxLength="80"
-                    android:maxLines="3"
-                    android:textAlignment="center" />
-
-            </RelativeLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:orientation="vertical"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp">
-
-                <com.google.android.material.button.MaterialButton xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/answerBtn1"
-                    style="@style/AnswerButton"
-                    android:text="45"
-                    app:cornerRadius="14dp" />
-
-                <com.google.android.material.button.MaterialButton xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/answerBtn2"
-                    style="@style/AnswerButton"
-                    app:cornerRadius="14dp" />
-
-                <com.google.android.material.button.MaterialButton xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/answerBtn3"
-                    style="@style/AnswerButton"
-                    app:cornerRadius="14dp" />
-
-                <com.google.android.material.button.MaterialButton xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/answerBtn4"
-                    style="@style/AnswerButton"
-                    app:cornerRadius="14dp" />
-            </LinearLayout>
-
+            <com.google.android.material.button.MaterialButton xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/answerBtn4"
+                style="@style/AnswerButton" />
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
+
