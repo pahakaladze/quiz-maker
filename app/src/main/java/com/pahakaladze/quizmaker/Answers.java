@@ -73,7 +73,7 @@ public class Answers implements Serializable {
         list.add(wrongAnswer3);
         return list;
     }
-    public ArrayList<String> getMixedAnswers(){
+    public ArrayList<String> getMixed(){
         ArrayList<String> list = new ArrayList<>(4);
         list.addAll(getWrongAnswers());
         list.add(getCorrectAnswer());
