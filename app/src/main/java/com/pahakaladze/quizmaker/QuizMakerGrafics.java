@@ -6,15 +6,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ActivityController {
-    private static AppCompatActivity appCompatActivity = MainActivity.getContext();
+public class QuizMakerGrafics {
+    private static AppCompatActivity appCompatActivity;
     private static StringBuilder pageNumberText = new StringBuilder();
     private static QuizList quizList;
     private static int currentPageIndex;
     private static int firstPageIndex;
     private static int lastPageIndex;
 
-    private ActivityController() {
+    private QuizMakerGrafics() {
 
     }
 
@@ -26,6 +26,7 @@ public class ActivityController {
     }
 
     private static void initialization() {
+        appCompatActivity = QuizMakerActivity.getContext();
         quizList = QuizList.getInstance();
         currentPageIndex = quizList.getCurrentPageIndex();
         lastPageIndex = quizList.getLastPageIndex();
