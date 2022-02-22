@@ -24,7 +24,7 @@ public class QuizList implements Serializable {
     public void add(QuestionPage questionPage) {
         if (lastPageIndex != currentPageIndex |
                 this.getCurrentPage().equals(questionPage)) {
-            Toast.makeText(MainActivity.getContext(), "Page not added", Toast.LENGTH_SHORT).show();
+            Toast.makeText(QuizMakerActivity.getContext(), "Page not added", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -35,11 +35,11 @@ public class QuizList implements Serializable {
         list.add(QuestionPage.getEmptyPage());
         currentPageIndex = list.size() - 1;
         lastPageIndex = list.size() - 1;
-        QuizLoader.saveToFiles(MainActivity.getContext());
+        QuizLoader.saveToFiles(QuizMakerActivity.getContext());
     }
 
     public void refreshCurrent() {
-        QuestionPage viewedPage = MainActivity.getViewedPage();
+        QuestionPage viewedPage = QuizMakerActivity.getViewedPage();
         QuestionPage currentPage = getCurrentPage();
         if (viewedPage.hasEmptyFields() | currentPage.equals(viewedPage)) {
             return;
@@ -51,7 +51,7 @@ public class QuizList implements Serializable {
             list.add(QuestionPage.getEmptyPage());
         }
         lastPageIndex = list.size() - 1;
-        QuizLoader.saveToFiles(MainActivity.getContext());
+        QuizLoader.saveToFiles(QuizMakerActivity.getContext());
     }
 
     public void deleteCurrent() {
@@ -60,7 +60,7 @@ public class QuizList implements Serializable {
         }
         list.remove(currentPageIndex);
         lastPageIndex = list.size() - 1;
-        QuizLoader.saveToFiles(MainActivity.getContext());
+        QuizLoader.saveToFiles(QuizMakerActivity.getContext());
     }
 
     public QuestionPage getFirstPage() {
@@ -97,8 +97,8 @@ public class QuizList implements Serializable {
         firstPageIndex = 0;
         currentPageIndex = 0;
         lastPageIndex = list.size() - 1;
-        if (MainActivity.getContext() != null) {
-            ActivityController.activateElements();//executing only from MainActivity
+        if (QuizMakerActivity.getContext() != null) {
+            QuizMakerGrafics.activateElements();//executing only from MainActivity
         }
     }
 
