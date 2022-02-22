@@ -13,7 +13,7 @@ public class TestManager {
     }
 
     public static boolean prepareQuizForTest(QuizList quizList) {
-        if (quizList.size() == 0) return false; //add new activity
+        if (quizList.size() == 0) return false;
         ArrayList<QuestionPage> filteredList = getFilteredList(quizList);
         if (filteredList.size() > 0) {
             QuizList.getInstance().setList(filteredList);
@@ -21,7 +21,7 @@ public class TestManager {
         } else return false;
     }
 
-    public static ArrayList<QuestionPage> getFilteredList(QuizList quizList) {
+    private static ArrayList<QuestionPage> getFilteredList(QuizList quizList) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return (ArrayList<QuestionPage>) quizList.getList().stream()
