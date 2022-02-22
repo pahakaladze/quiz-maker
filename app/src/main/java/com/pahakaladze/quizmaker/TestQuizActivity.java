@@ -1,6 +1,8 @@
 package com.pahakaladze.quizmaker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +17,7 @@ import com.google.android.gms.ads.AdView;
 import java.util.ArrayList;
 
 public class TestQuizActivity extends AppCompatActivity {
-    private AdView mAdView;
+    private AdView adView;
     private TextView pageNumberView;
     private TextView questionView;
     private Button answerBtn1;
@@ -26,14 +28,46 @@ public class TestQuizActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_test_quiz);
         getSupportActionBar().hide();
-        mAdView = findViewById(R.id.adView);
+        adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        adView.loadAd(adRequest);
         loadQuiz();
     }
 
+    @Override
+    public void onPause() {
+        if (adView != null) {
+            adView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        if (adView != null) {
+            adView.pause();
+        }
+        super.onStop();
+    }
     private void initializationOfFields() {
         pageNumberView = findViewById(R.id.pageNumber);
         questionView = findViewById(R.id.question);
@@ -47,7 +81,7 @@ public class TestQuizActivity extends AppCompatActivity {
         QuestionPage page = QuizLoader.loadFromFiles(this);
         if (!TestManager.prepareQuizForTest(QuizList.getInstance())) {
             Intent intent = new Intent(this, WelcomeActivity.class);
-            Toast.makeText(this, "Your Quiz has empty data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.empty_data, Toast.LENGTH_SHORT).show();
             startActivity(intent);
         }
         initializationOfFields();
@@ -57,8 +91,11 @@ public class TestQuizActivity extends AppCompatActivity {
     private void showPage(QuestionPage page) {
         if (page.hasEmptyFields()) return;
         QuizList list = QuizList.getInstance();
-        String text = "Page " + (list.getCurrentPageIndex() + 1) + " of " + list.size();
-        ArrayList<String> answers = page.getAnswers().getMixedAnswers();
+        String text = getResources().getString(R.string.page_number) +
+                (list.getCurrentPageIndex() + 1) +
+                getResources().getString(R.string.from) +
+                list.size();
+        ArrayList<String> answers = page.getAnswers().getMixed();
 
         questionView.setText(page.getQuestion());
         pageNumberView.setText(text);
@@ -72,8 +109,24 @@ public class TestQuizActivity extends AppCompatActivity {
         Button btn = findViewById(view.getId());
         String correct = QuizList.getInstance().getCurrentPage().getAnswers().getCorrectAnswer();
         if (btn.getText().equals(correct)) {
-            Toast.makeText(this, "Yo Yo Yo", Toast.LENGTH_SHORT).show();
+            PopupMessage.showCorrectMark(btn, this);
+            showPage(QuizList.getInstance().getNextPage());
+        } else {
+            PopupMessage.showIncorrectMark(btn, this);
+            showPage(QuizList.getInstance().getNextPage());
         }
     }
 
+    public void homePage(View view){
+        Intent intent = new Intent(this, WelcomeActivity.class);
+        startActivity(intent);
+    }
+
+    public void skipQuestion(View view){
+        showPage(QuizList.getInstance().getNextPage());
+    }
+
+    public void closeApplication(View view){
+        ActivityCompat.finishAffinity(this);
+    }
 }
