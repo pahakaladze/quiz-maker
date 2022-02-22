@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blur"
+    android:orientation="vertical">
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"></com.google.android.gms.ads.AdView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <Button
+            android:id="@+id/homePage"
+            style="@style/TopButtons"
+            android:layout_alignParentLeft="true"
+            android:onClick="homePage"
+            android:text="@string/home_page" />
+
+        <Button
+            android:id="@+id/testAgain"
+            style="@style/TopButtons"
+            android:layout_centerHorizontal="true"
+            android:onClick="testAgain"
+            android:text="TEST AGAIN" />
+
+        <Button
+            android:id="@+id/closeApp"
+            style="@style/TopButtons"
+            android:layout_alignParentRight="true"
+            android:onClick="closeApplication"
+            android:text="@string/close_button" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Correct answers 5 from 10 Skipped - 0"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:padding="5dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <TextView
+                android:id="@+id/question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="weeqewe\nwew\ne
+            w\newe\nwewe \n eweweqq\nwewew ewew\n
+            ew\new ew\newe\nwewe wew\new\n ew\n454\n64v6v\n654\n000"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="30dp" />
+        </ScrollView>
+
+    </RelativeLayout>
+
+
+</LinearLayout>
+
